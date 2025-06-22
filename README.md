@@ -23,6 +23,7 @@ FireSync is a **unified web application** that creates seamless watch party expe
 Traditional streaming platforms lack synchronized viewing capabilities, making remote group entertainment difficult with no real-time interaction or cross-device control.
 
 ### Our Solution
+![WhatsApp Image 2025-06-22 at 21 46 45](https://github.com/user-attachments/assets/e61304cf-68b3-4276-8ca0-62c3f927cde6)
 
 A comprehensive platform with dual interfaces that work together:
 - **🔥 FireTV Interface**: Large screen experience for hosting content
