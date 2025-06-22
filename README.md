@@ -41,6 +41,7 @@ A comprehensive platform with dual interfaces that work together:
 - Real-time playback status updates
 
 ### 💬 **Enhanced Social Experience**
+![WhatsApp Image 2025-06-22 at 21 52 33](https://github.com/user-attachments/assets/ea88a6a4-d3ed-40d9-89fe-5fb2bcd88369)
 
 - **Real-time Party Chat**: Live messaging with emoji support
 - **Voice Messages**: WebRTC-powered voice note recording
