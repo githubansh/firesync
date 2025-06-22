@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 25% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 10%;
+    --primary: 170 80% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 220 25% 10%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 220 25% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 170 80% 45%;
+    --radius: 0.75rem;
+
+    --sidebar-background: 222 51% 13%;
+    --sidebar-foreground: 210 40% 90%;
+    --sidebar-primary: 180 100% 45%;
+    --sidebar-primary-foreground: 222 51% 11%;
+    --sidebar-accent: 222 51% 18%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 51% 25%;
+    --sidebar-ring: 180 100% 45%;
+  }
+
+  .dark {
+    --background: 173 3% 12%; /* #1F2120 */
+    --foreground: 40 33% 99%; /* #FDFBFA */
+    --card: 190 65% 15%; /* #13363C */
+    --card-foreground: 40 33% 99%; /* #FDFBFA */
+    --popover: 190 65% 15%; /* #13363C */
+    --popover-foreground: 40 33% 99%; /* #FDFBFA */
+    --primary: 185 58% 48%; /* #33B9C5 */
+    --primary-foreground: 190 65% 10%; /* Darker for contrast on primary */
+    --secondary: 190 65% 20%; /* Slightly lighter than card */
+    --secondary-foreground: 40 33% 99%; /* #FDFBFA */
+    --muted: 190 65% 15%; /* #13363C */
+    --muted-foreground: 40 33% 80%; /* Slightly dimmer white for muted text */
+    --accent: 185 58% 48%; /* #33B9C5 */
+    --accent-foreground: 190 65% 10%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 190 65% 20%; /* Same as secondary */
+    --input: 190 65% 20%; /* Same as secondary */
+    --ring: 185 58% 58%; /* Lighter primary for ring */
+    --sidebar-background: 222 51% 13%;
+    --sidebar-foreground: 210 40% 90%;
+    --sidebar-primary: 180 100% 45%;
+    --sidebar-primary-foreground: 222 51% 11%;
+    --sidebar-accent: 222 51% 18%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 51% 25%;
+    --sidebar-ring: 180 100% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    min-height: 100vh;
+    background-color: hsl(var(--background));
+    /* New gradient using the palette */
+    background-image: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--card)) 100%);
+    background-attachment: fixed;
+  }
+}
+
+/* Grid pattern overlay for depth */
+@layer utilities {
+  .grid-pattern {
+    background-image: 
+      linear-gradient(rgba(0, 230, 230, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 230, 230, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  .gradient-overlay {
+    background: linear-gradient(135deg, rgba(17, 17, 132, 0.9) 0%, rgba(26, 26, 154, 0.8) 50%, rgba(34, 34, 153, 0.9) 100%);
+  }
+}

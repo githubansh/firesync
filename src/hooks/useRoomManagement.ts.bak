@@ -1,0 +1,172 @@
+
+import { useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-t      
+      toast({
+        title: "Connected!",
+        description: `Joined room ${data.roomCode} successfully`,
+      });
+
+      return room;
+    } catch (error: any) {
+      console.error('Join room failed:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to join room",
+        variant: "destructive",
+      });
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }reateRoomData {
+  name?: string;
+  allowRemoteControl?: boolean;
+  autoDiscovery?: boolean;
+}
+
+interface JoinRoomData {
+  roomCode: string;
+  username: string;
+  deviceType: 'firetv' | 'mobile';
+  deviceName?: string;
+}
+
+export const useRoomManagement = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const createRoom = async (data: CreateRoomData) => {
+    setIsLoading(true);
+    try {
+      console.log('Creating room with data:', data);
+      
+      const { data: result, error } = await supabase.functions.invoke('create-room', {
+        body: data,
+      });
+
+      if (error) {
+        console.error('Create room error:', error);
+        throw error;
+      }
+
+      console.log('Room created successfully:', result);
+      
+      toast({
+        title: "Room Created!",
+        description: `Your party room ${result.room.code} is ready`,
+      });
+
+      return result.room;
+    } catch (error: any) {
+      console.error('Create room failed:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create room",
+        variant: "destructive",
+      });
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const joinRoom = async (data: JoinRoomData) => {
+    setIsLoading(true);
+    try {
+      console.log('Joining room with data:', data);
+      
+      try {
+        // First attempt using edge function
+        const { data: result, error } = await supabase.functions.invoke('join-room', {
+          body: data,
+        });
+        
+        if (!error) {
+          console.log('Joined room successfully via Edge Function:', result);
+          return result.room;
+        }
+        
+        console.warn('Edge function failed, falling back to direct DB access:', error);
+      } catch (edgeFnError) {
+        console.warn('Edge function error, falling back to direct DB access:', edgeFnError);
+      }
+      
+      // Fallback to direct database access if edge function fails
+      // 1. Find the room
+      const { data: room, error: roomError } = await supabase
+        .from('rooms')
+        .select('*')
+        .ilike('code', data.roomCode)
+        .in('status', ['waiting', 'active'])
+        .single();
+
+      if (roomError || !room) {
+        console.error('Room not found error:', roomError);
+        throw new Error('Room not found or inactive');
+      }
+
+      // 2. Check if user is already a participant
+      const { data: user } = await supabase.auth.getUser();
+      if (!user.user) {
+        throw new Error('Unauthorized');
+      }
+      
+      const { data: existingParticipant } = await supabase
+        .from('participants')
+        .select('*')
+        .eq('room_id', room.id)
+        .eq('user_id', user.user.id)
+        .single();
+
+      // 3. Update or create participant
+      if (existingParticipant) {
+        await supabase
+          .from('participants')
+          .update({
+            username: data.username,
+            device_type: data.deviceType,
+            device_name: data.deviceName || 'Unknown Device',
+            is_connected: true,
+            last_seen: new Date().toISOString()
+          })
+          .eq('id', existingParticipant.id);
+      } else {
+        await supabase
+          .from('participants')
+          .insert({
+            room_id: room.id,
+            user_id: user.user.id,
+            username: data.username,
+            role: 'member',
+            device_type: data.deviceType,
+            device_name: data.deviceName || 'Unknown Device',
+            is_connected: true
+          });
+      }
+      
+      console.log('Joined room successfully via direct DB access:', room);
+      
+      toast({
+        title: "Connected!",
+        description: `Joined room ${data.roomCode} successfully`,
+      });
+
+      return result.room;
+    } catch (error: any) {
+      console.error('Join room failed:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to join room",
+        variant: "destructive",
+      });
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return {
+    createRoom,
+    joinRoom,
+    isLoading,
+  };
+};
