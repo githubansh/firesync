@@ -46,7 +46,7 @@ A comprehensive platform with dual interfaces that work together:
 - **Real-time Party Chat**: Live messaging with emoji support
 - **Voice Messages**: WebRTC-powered voice note recording
 - **Participant Management**: Live connection status and presence indicators
-- **Anonymous Joining**: Quick access without registration barriers
+
 
 ### 🔄 **Advanced Synchronization**
 - **Real-time Sync**: Supabase WebSocket-based instant updates
