@@ -32,6 +32,7 @@ A comprehensive platform with dual interfaces that work together:
 ---
 
 ## ✨ Key Features
+![WhatsApp Image 2025-06-22 at 21 53 25](https://github.com/user-attachments/assets/01cdf3aa-121e-43d4-b737-13fdc612d2c4)
 
 ### 🎮 **Cross-Device Remote Control**
 - Full FireTV remote functionality from mobile devices
@@ -40,6 +41,7 @@ A comprehensive platform with dual interfaces that work together:
 - Real-time playback status updates
 
 ### 💬 **Enhanced Social Experience**
+
 - **Real-time Party Chat**: Live messaging with emoji support
 - **Voice Messages**: WebRTC-powered voice note recording
 - **Participant Management**: Live connection status and presence indicators
